@@ -1,0 +1,46 @@
+{
+  "files": [
+    {
+      "slug": "introduction",
+      "title": "Introduction",
+      "path": "/introduction",
+      "directory": null
+    },
+    {
+      "slug": "tools/cursor",
+      "title": "Cursor",
+      "path": "/tools/cursor",
+      "directory": "tools"
+    },
+    {
+      "slug": "tools/docker",
+      "title": "Docker",
+      "path": "/tools/docker",
+      "directory": "tools"
+    },
+    {
+      "slug": "tools/git",
+      "title": "Git",
+      "path": "/tools/git",
+      "directory": "tools"
+    },
+    {
+      "slug": "tools/vscode",
+      "title": "VSCode",
+      "path": "/tools/vscode",
+      "directory": "tools"
+    },
+    {
+      "slug": "web/nextjs",
+      "title": "Next.js",
+      "path": "/web/nextjs",
+      "directory": "web"
+    },
+    {
+      "slug": "web/shadcn",
+      "title": "shadcn/ui",
+      "path": "/web/shadcn",
+      "directory": "web"
+    }
+  ]
+}
