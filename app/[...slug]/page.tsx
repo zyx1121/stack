@@ -115,15 +115,20 @@ async function highlightCodeBlocks(html: string): Promise<string> {
 }
 
 function addIdsToHeadings(html: string): string {
-  const headingRegex = /<(h[1-6])>(.*?)<\/h[1-6]>/g;
+  const headingRegex = /<(h[1-6])(?:\s[^>]*)?>([\s\S]*?)<\/\1>/g;
 
   const usedIds = new Set<string>();
 
   return html.replace(headingRegex, (match, tag, content) => {
-    const id = content
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]/g, "");
+    const plainText = content.replace(/<[^>]*>/g, "");
+
+    let id = plainText.toLowerCase().replace(/\s+/g, "-");
+
+    if (!id || id.replace(/[^\w-]/g, "") === "") {
+      id = `heading-${usedIds.size + 1}`;
+    } else {
+      id = id.replace(/[^\w-]/g, "");
+    }
 
     let uniqueId = id;
     let counter = 1;
@@ -139,18 +144,25 @@ function addIdsToHeadings(html: string): string {
 }
 
 function generateTOC(html: string) {
-  const headingRegex = /<(h[1-6]) id="([^"]+)">(.*?)<\/h[1-6]>/g;
+  const headingRegex =
+    /<(h[2-6])(?:\s[^>]*)?id="([^"]+)"(?:\s[^>]*)?>([\s\S]*?)<\/\1>/g;
   const headings: { id: string; text: string; level: number }[] = [];
+
+  console.log("HTML content for TOC generation:", html);
 
   let match;
   while ((match = headingRegex.exec(html)) !== null) {
     const tag = match[1];
     const id = match[2];
-    const text = match[3];
+    const text = match[3].replace(/<[^>]*>/g, "");
     const level = parseInt(tag.substring(1));
 
-    headings.push({ id, text, level });
+    if (level >= 2) {
+      headings.push({ id, text, level });
+    }
   }
+
+  console.log("Generated TOC headings:", headings);
 
   return headings;
 }
@@ -190,11 +202,13 @@ function TableOfContents({
   return (
     <div className="w-64 p-4 overflow-auto">
       <nav className="space-y-1">
-        {toc.map((heading) => (
+        {toc.map((heading, index) => (
           <a
             key={heading.id}
             href={`#${heading.id}`}
-            className="toc-link block text-sm p-2 rounded-md transition-colors hover:text-primary text-muted-foreground"
+            className={`toc-link block text-sm p-2 rounded-md transition-colors hover:text-primary ${
+              index === 0 ? "text-primary font-medium" : "text-muted-foreground"
+            }`}
             style={{
               paddingLeft: `${(heading.level - 1) * 0.5}rem`,
             }}
@@ -215,6 +229,8 @@ export default function MDXPage({
   const resolvedParams = use(params);
   const slugPath = resolvedParams.slug.join("/");
   const { htmlContent, frontMatter, toc } = use(processMDX(slugPath));
+
+  const filteredToc = toc.filter((heading) => heading.level >= 2);
 
   return (
     <div className="w-full flex flex-row">
@@ -242,10 +258,8 @@ export default function MDXPage({
         </article>
       </div>
 
-      <div className="w-80" />
-
-      <div className="fixed top-0 right-0 w-64 min-h-dvh border-l pt-16 bg-background hidden lg:block">
-        <TableOfContents toc={toc} />
+      <div className="w-64 min-h-dvh border-l pt-16 bg-background hidden lg:block">
+        <TableOfContents toc={filteredToc} />
       </div>
 
       <script
@@ -253,7 +267,7 @@ export default function MDXPage({
           __html: `
             document.addEventListener('DOMContentLoaded', function() {
               const tocLinks = document.querySelectorAll('.toc-link');
-              const headings = document.querySelectorAll('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]');
+              const headings = document.querySelectorAll('h2[id], h3[id], h4[id], h5[id], h6[id]');
 
               const observer = new IntersectionObserver(
                 (entries) => {
@@ -272,7 +286,8 @@ export default function MDXPage({
                   });
                 },
                 {
-                  rootMargin: "-100px 0px -80% 0px",
+                  rootMargin: "-20px 0px -80% 0px",
+                  threshold: 0.1
                 }
               );
 
