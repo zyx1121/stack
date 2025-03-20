@@ -1,46 +1,52 @@
 {
   "files": [
     {
+      "slug": "cursor",
+      "title": "Cursor",
+      "path": "/cursor",
+      "directory": null
+    },
+    {
+      "slug": "docker",
+      "title": "Docker",
+      "path": "/docker",
+      "directory": null
+    },
+    {
+      "slug": "git",
+      "title": "Git",
+      "path": "/git",
+      "directory": null
+    },
+    {
+      "slug": "google-oauth",
+      "title": "Google OAuth",
+      "path": "/google-oauth",
+      "directory": null
+    },
+    {
       "slug": "introduction",
       "title": "Introduction",
       "path": "/introduction",
       "directory": null
     },
     {
-      "slug": "tools/cursor",
-      "title": "Cursor",
-      "path": "/tools/cursor",
-      "directory": "tools"
-    },
-    {
-      "slug": "tools/docker",
-      "title": "Docker",
-      "path": "/tools/docker",
-      "directory": "tools"
-    },
-    {
-      "slug": "tools/git",
-      "title": "Git",
-      "path": "/tools/git",
-      "directory": "tools"
-    },
-    {
-      "slug": "tools/vscode",
-      "title": "VSCode",
-      "path": "/tools/vscode",
-      "directory": "tools"
-    },
-    {
-      "slug": "web/nextjs",
+      "slug": "nextjs",
       "title": "Next.js",
-      "path": "/web/nextjs",
-      "directory": "web"
+      "path": "/nextjs",
+      "directory": null
     },
     {
-      "slug": "web/shadcn",
+      "slug": "shadcn",
       "title": "shadcn/ui",
-      "path": "/web/shadcn",
-      "directory": "web"
+      "path": "/shadcn",
+      "directory": null
+    },
+    {
+      "slug": "vscode",
+      "title": "VSCode",
+      "path": "/vscode",
+      "directory": null
     }
   ]
 }
