@@ -1,7 +1,6 @@
 import "@/app/globals.css";
 import { AppBreadcrumb } from "@/components/app-breadcrumb";
 import { AppSidebar } from "@/components/app-sidebar";
-import { LoadingScreen } from "@/components/loading-screen";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import type { Metadata } from "next";
@@ -26,7 +25,6 @@ export default function RootLayout({
     <html lang="zh-TW" suppressHydrationWarning>
       <body className={`${firaCode.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <LoadingScreen />
           <SidebarProvider>
             <AppSidebar />
             <div className="flex flex-col w-full min-h-dvh">
